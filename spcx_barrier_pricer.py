@@ -430,9 +430,7 @@ with st.sidebar:
                 unsafe_allow_html=True)
     st.header("Market data")
     ticker = st.text_input("Ticker", "SPCX")
-    live = st.toggle("Use live spot", value=HAS_YF, disabled=not HAS_YF,
-                     help="Latest traded price via yfinance (15–20 min "
-                          "delayed). Install: pip install yfinance")
+    live = st.toggle("Use live spot", value=HAS_YF, disabled=not HAS_YF)
     live_px, live_src = None, None
     if live:
         try:
