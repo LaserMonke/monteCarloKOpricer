@@ -283,8 +283,6 @@ def fetch_spot(ticker: str):
     t = yf.Ticker(ticker)
     try:
         px = t.fast_info["last_price"]
-        if px and np.isfinite(px) and px > 0:
-            return float(px), "yfinance fast_info (delayed)"
     except Exception:
         pass
     hist = t.history(period="5d")["Close"].dropna()
