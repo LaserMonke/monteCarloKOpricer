@@ -283,6 +283,8 @@ def fetch_spot(ticker: str):
     t = yf.Ticker(ticker)
     try:
         px = t.fast_info["last_price"]
+        if px and np.isfinite(px) and px > 0:
+            return float(px), "yfinance fast_info (delayed)"
     except Exception:
         pass
     hist = t.history(period="5d")["Close"].dropna()
@@ -428,7 +430,9 @@ with st.sidebar:
                 unsafe_allow_html=True)
     st.header("Market data")
     ticker = st.text_input("Ticker", "SPCX")
-    live = st.toggle("Use live spot", value=HAS_YF, disabled=not HAS_YF)
+    live = st.toggle("Use live spot", value=HAS_YF, disabled=not HAS_YF,
+                     help="Latest traded price via yfinance (15–20 min "
+                          "delayed). Install: pip install yfinance")
     live_px, live_src = None, None
     if live:
         try:
